@@ -1,0 +1,176 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{colortbl, color, xcolor}
+
+\title{AIS: Vision, Graphics and AI for Streaming - Event-based Eye Tracking Challenge}
+
+%%% Make sure your team name is short and does not contain special characters. It can also be the name of your method e.g. EyeTrackNet - be more creative than just using your institution's name :)
+
+%%% Add your names and affiliations.
+\author{Your Team Name Here\\
+Your Names\thanks{\textcolor{blue}{Affiliations}}\\
+}
+
+\begin{document}
+
+\maketitle
+
+This document consists of two parts: 1. Email final submission guide 2. factsheet template (starting from Section Factsheet template). The email final submission is meant to gather necessary information for participating in the final challenge ranking and the challenge report draft. The factsheet is meant to structure the description of the contributions made by each participating team in the challenge.
+
+The general aspects below are important for the participants and the challenge organization:
+\begin{enumerate}
+    \item Reproducibility is a must and needs to be checked for the final test results to qualify for the awards. This is achieved with the factsheet and code submission.
+    
+    \item The main winners will be decided based on overall performance, novelty, and to solutions that stand up as the best in a particular subcategory the judging committee will decide.
+    
+    \item The teams invited to submit their code and factsheet will be invited to co-author the CVPR 2024 Event-based Eye Tracking Challenge report. 
+    
+    \item All challenge participants are invited to submit papers with their solutions to the CVPR 2024 workshop.
+
+\end{enumerate}
+
+The factsheet, source codes/executables, and additional results (if any) should be sent to the organizers by email with the following guidelines:
+
+
+
+
+\section*{Email final submission guide}
+
+\textbf{To}: zuowen@ini.uzh.ch; chang.gao@tudelft.nl; q.chen@liacs.leidenuniv.nl; \\
+\textbf{cc}: your\_team\_members\\
+\textbf{Subject}: 2024 AIS Eye Tracking Challenge - TEAM\_NAME\\
+
+\textbf{Body contents should include}: 
+
+a) the challenge name 
+
+b) team name 
+
+c) team leader's name and email address 
+
+d) the rest of the team members 
+
+e) affiliations of team members with any sponsors 
+
+f) team name and user names on the challenge platform (e.g., Kaggle) 
+
+g) \textbf{executable/source code attached or download links}
+
+h) \textbf{factsheet attached} 
+
+i) download link from the shared folder or cloud to the results (e.g., submission.csv, corresponding model checkpoint, and any additional results if indicated in the factsheet.). Please make sure the access right is given with the link.
+
+Model checkpoints and other parameters should be provided so that we can run it and reproduce results. There should be a README or descriptions that explain how to execute the executable/code. 
+
+The factsheet must be a compiled pdf file together with a zip with .tex factsheet source files (including figures) such that the content can be easily adopted for the final challenge report. 
+
+
+\section{Factsheet template}
+The following sections of contents should be included in the factsheet. Please recycle the following sections and fill in the content in the .tex format with associated materials such as figures.
+
+\subsection{Team Details}
+
+\begin{itemize}
+    \item Team name
+    \item Team leader name
+    \item Team leader institution and email (Please ensure it is an active email)
+    \item Rest of the team members
+    \item Team website URL (if any)
+    \item Affiliations
+    \item Usernames on the Kaggle leaderboard 
+    \item Link to the codes/executables of the solution(s)
+    \item Link to other forms of results, including checkpoints, visualizations etc.
+\end{itemize}
+
+\subsection{Contribution Details}
+
+\begin{itemize}
+    \item Title of the contribution
+    \item General method description
+        \begin{itemize}
+            \item Briefly describe the core algorithm or approach used in your solution.
+            \item Highlight any innovative techniques or technologies employed.
+        \end{itemize}
+    \item References
+        \begin{itemize}
+            \item Include citations to any publications, libraries, or frameworks you've utilized or referenced in your solution.
+        \end{itemize}
+    \item Representative image/diagram of the method(s)
+        \begin{itemize}
+            \item Provide a visual that summarizes or represents your methodology, such as an architecture diagram or flowchart.
+        \end{itemize}
+    \item Have you tested previously published methods? (yes/no)
+        \begin{itemize}
+            \item If yes, please specify which methods and summarize the results or issues encountered.
+        \end{itemize}
+    \item Other methods and baselines tested (even if results were not top competitive).
+        \begin{itemize}
+            \item Mention any additional experiments or methodologies you explored, regardless of their final performance.
+        \end{itemize}
+\end{itemize}
+
+
+\subsection{General Methodology Overview}
+Please cover the bullet points in this section as much as possible.
+
+\begin{itemize}
+    \item Overall complexity of the proposed eye-tracking solution, including all stages of development and deployment.
+    \item Disclosure of any pre-trained or external methods/models utilized at any stage of the process.
+    \item Specification of any additional data utilized beyond the dataset provided by the 2024 Eye Tracking Challenge.
+    \item Detailed description of the training process, including any novel techniques or approaches employed.
+    \item Explanation of the testing and validation procedures to ensure the accuracy and robustness of the eye-tracking solution.
+    \item Quantitative and qualitative advantages of the proposed solution over existing methods.
+    \item Performance of the proposed solution on other metrics, this can include accuracy with different pixel tolerance, mean Euclidean distances etc. 
+    \item Performance of the proposed solution on other benchmarks or datasets, if tested.
+    \item Novelty and originality of the solution, including any previously unpublished methods or techniques.
+    \item Ethical statement on the use of other works, ensuring proper credits are given and avoiding any form of misconduct.
+\end{itemize}
+
+Please complete the following table with the technical specifications of your solution. This table should provide a quick reference to the key technical aspects of your submission.
+
+\begin{table}[h]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+        Input Size & Training Time & Epochs & Extra Data & Pre-trained Models & Attention Mechanisms & Quantization & Parameters & Inference Time & GPU  \\
+        \hline
+        e.g., (80, 60, 2) & 48h & 200 & Yes/No & Used/Not Used & Yes/No & Yes/No & 10 Million & 10ms & RTX 3090\\
+    \end{tabular}
+    }
+    \caption{Technical Specification of the Proposed Eye-Tracking Solution}
+    \label{tab:eye_tracking_solution}
+\end{table}
+
+
+\subsection{Competition Particularities}
+This competition is distinct from other challenges in its focus on developing an event-based eye-tracking system. Unlike traditional eye-tracking systems, event-based tracking offers high-speed sampling and reduced power consumption, which are critical for applications in consumer electronics, augmented/virtual reality (AR/VR), and neuroscience research. This necessitates innovative approaches in processing sparse input data streams and integrating with event cameras. 
+
+If your methods have any particularities in these aspects including efficiency, exploiting event data sparsity, etc, \textbf{please specify in more detail in this section.} If this does not apply to your method you could leave this section blank.
+
+\subsection{Technical Details}
+Participants are encouraged to use Python for implementing their solutions, as also provided in the sample code pipeline, with the flexibility to choose between various deep learning frameworks such as PyTorch or TensorFlow. \textbf{If you have inference-specific acceleration strategies, you are welcomed to specify the details in this section}. Key aspects of the implementation include:
+
+\begin{itemize}
+    \item \textbf{Framework:} Specify the deep learning framework used (e.g., PyTorch, TensorFlow).
+    \item \textbf{Optimizer and Learning Rate:} Details of the optimizer (e.g., Adam, SGD) and learning rate settings.
+    \item \textbf{GPU:} Information about the GPU utilized for training, including model and memory capacity.
+    \item \textbf{Datasets:} Description of the datasets used for training, including preprocessing steps and data augmentation techniques.
+    \item \textbf{Training Time:} Total duration of the training process.
+    \item \textbf{Training Strategies:} Outline any special training strategies employed, such as transfer learning, fine-tuning, or curriculum learning.
+    \item \textbf{Efficiency Optimization Strategies:} Techniques used to optimize the model for better performance and efficiency, considering the unique challenges posed by event-based eye tracking.
+\end{itemize}
+
+\subsection{Other Details}
+\begin{itemize}
+    \item \textbf{Planned Submission of a Challenge Paper at CVPR 2024 Workshop:} [YES/NO]. Specify whether you plan to submit a detailed paper describing your solution to the AI for Streaming workshop associated with CVPR 2024.
+
+    \item \textbf{If the challenge paper is accepted, do you plan to have a representative of your team to present the work in person at the CVPR workshop in Seattle?} [YES/NO]
+    
+    \item \textbf{General Comments and Impressions of the 2024 Event-based Eye Tracking Challenge:} We welcome your feedback to enhance future editions of this competition. Please share your experiences, challenges faced, and suggestions for improvement.
+    
+    \item \textbf{Expectations from Future Challenges in Event-based Systems:} Share your thoughts on what you hope to see in future challenges related to event-based systems, eye tracking, or other applications of neuromorphic engineering. This could include suggestions on datasets, problem statements, or technology integrations.
+\end{itemize}
+
+
+\end{document}

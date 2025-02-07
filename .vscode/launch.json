@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Train Baseline",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/train.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--mlflow_path", "./mlruns",
+                "--experiment_name", "eye_tracking_debug",
+                "--run_name", "debug_run",
+                "--config_file", "train_baseline.json",
+                "--lr", "0.001",
+                "--num_epochs", "20"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+    ]
+} 

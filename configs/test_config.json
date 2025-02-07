@@ -1,0 +1,15 @@
+{
+    "device": "cuda:0",
+    "data_dir": "./event_data",
+    "architecture": "CNN_GRU",
+    "batch_size": 1,
+    "spatial_factor": 0.125,
+    "temporal_subsample_factor": 0.2,
+    "pixel_tolerances": [5,10,15],
+    "sensor_width": 640,
+    "sensor_height": 480,
+    "test_stride": 30,
+    "test_length": 30,
+    "n_time_bins": 3,
+    "voxel_grid_ch_normaization": false
+}
