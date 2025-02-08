@@ -1,10 +1,10 @@
 {
-    "device": "cuda:0",
+    "device": "cpu",
     "data_dir": "./event_data",
     "architecture": "CNN_GRU",
     "batch_size": 1,
     "spatial_factor": 0.125,
-    "temporal_subsample_factor": 0.2,
+    "temporal_subsample_factor": 1,
     "pixel_tolerances": [5,10,15],
     "sensor_width": 640,
     "sensor_height": 480,

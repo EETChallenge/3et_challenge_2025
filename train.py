@@ -155,19 +155,21 @@ def main(args):
 
         label_transform = transforms.Compose([
             ScaleLabel(factor),
-            LabelTemporalSubsample(temp_subsample_factor),
+            # LabelTemporalSubsample(temp_subsample_factor),
             NormalizeLabel(pseudo_width=640*factor, pseudo_height=480*factor)
         ])
 
         # Then we define the raw event recording and label dataset, the raw events spatial coordinates are also downsampled
         train_data_orig = ThreeETplus_Eyetracking(save_to=args.data_dir, split="train", \
-                        transform=transforms.Downsample(spatial_factor=factor), 
+                        transform=transforms.Downsample(spatial_factor=factor),
                         # transform=data_transform, 
-                        target_transform=label_transform)
+                        target_transform=label_transform
+                                                  )
         val_data_orig = ThreeETplus_Eyetracking(save_to=args.data_dir, split="val", \
                         transform=transforms.Downsample(spatial_factor=factor),
                         # transform=data_transform,
-                        target_transform=label_transform)
+                        target_transform=label_transform
+                                                )
 
         # Then we slice the event recordings into sub-sequences. 
         # The time-window is determined by the sequence length (train_length, val_length) 
