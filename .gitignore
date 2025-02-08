@@ -4,6 +4,5 @@ event_data/*
 */__pycache__/*
 mlruns/*
 metadata/*
-.idea/*
-.vscode/*
-.DS_Store
+gen.py
+visualization.py

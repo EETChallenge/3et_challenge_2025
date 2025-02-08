@@ -262,7 +262,7 @@ The ground truth is labeled at 100 Hz and consists of two parts for each label (
 The user is free to decide at if they would like to use the close label or not.
 
 #### Dataset splitting
-We use 12 recordings for testing (test split) and the remaining recordings (train split) are for the user to train and validate their methods. The users are free to divide the training and validation sets from the training data. 
+We use 11 recordings for testing (test split) and the remaining recordings (train split) are for the user to train and validate their methods. The users are free to divide the training and validation sets from the training data. 
 
 ----
 
