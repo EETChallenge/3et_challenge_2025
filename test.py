@@ -100,8 +100,10 @@ def main(args):
             # cast the output back to the downsampled sensor space (80x60)
             output = output * torch.tensor((640*factor, 480*factor)).to(args.device)
 
-            for sample in range(target_placeholder.shape[0]):
-                for frame_id in range(target_placeholder.shape[1]):
+            n_samples = target_placeholder.shape[0]
+            n_frames = target_placeholder.shape[1]
+            for sample in range(n_samples):
+                for frame_id in range(n_frames):
                     row_to_write = output[sample][frame_id].tolist()
                     # prepend the row_id
                     row_to_write.insert(0, row_id)

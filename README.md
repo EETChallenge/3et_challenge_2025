@@ -74,9 +74,7 @@ This is instrumental in augmenting the immersive experience in AR/VR and expandi
 
 This challenge aims to develop an **event-based eye-tracking system for precise tracking of rapid eye movements** to produce lighter and more comfortable devices for a better user experience. Simultaneously, it promises to provide novel insights into neuroscience and cognitive research, deepening our understanding of these domains.
 
-----
 ## Quick Start
-
 ### Repository Structure
 ```
 .
@@ -98,6 +96,28 @@ This challenge aims to develop an **event-based eye-tracking system for precise 
 └── model.py        # Model implementations
 └── environment.yml # Conda environment specification
 ```
+### Prepare Python Environment
+
+You can set up the required Python environment using either conda with environment.yml or pip with requirements.txt.
+
+- Using Conda (Recommended)
+```bash
+# Create and activate conda environment
+conda env create -f environment.yml
+conda activate eet
+```
+
+- Using Pip
+```bash
+# Create and activate virtual environment
+python -m venv eet
+source eet/bin/activate  # On Linux/Mac
+# OR
+.\eet\Scripts\activate  # On Windows
+
+# Install requirements
+pip install -r requirements.txt
+```
 
 ### Dataset
 Download The 3ET+ dataset from the competition page on [Kaggle](https://www.kaggle.com/competitions/event-based-eye-tracking-cvpr-2025/data). Put the dataset in the `./event_data` folder.
@@ -107,7 +127,39 @@ We provide a handy training script for you to start with. Simply install the dep
 ```python
 python train.py --config train_baseline.json
 ```
-It should give a decent baseline performance. Play around with the hyperparameters and see if you can improve the performance!
+
+**Note about first epoch performance:** The first training epoch might be noticeably slower because the script caches preprocessed data (transformed voxel grid representations) to disk. This one-time caching process improves the speed of all subsequent epochs and future training runs by avoiding redundant preprocessing. You can control this caching behavior with the `--keep_cache` flag:
+- Without `--keep_cache` (default): Cleans existing cache, ensuring all configuration changes take effect but requiring preprocessing again
+- With `--keep_cache`: Keeps existing cached data, making training faster but potentially using stale preprocessing if you've modified dataset-related configurations
+
+Play around with the hyperparameters and see if you can improve the performance!
+
+### Monitoring Training Progress
+We use [MLflow](https://mlflow.org/) to track experiments and visualize training progress. To monitor your runs:
+
+```bash
+mlflow ui --port 5000
+```
+Then open your browser and navigate to http://localhost:5000. You'll see a dashboard showing:
+- Training and validation metrics
+- Model parameters
+- Saved artifacts (including checkpoints)
+- Run history and comparisons
+
+![mlflow](./figures/mlflow.png)
+
+### Baseline Performance
+We provide benchmark results using standard event voxel grid representation. These results were obtained using a single RTX 3090 GPU:
+
+| Method    | GPU            | Average Euclidean Distance  | PyTorch Version |
+|-----------|----------------|-----------------------------|-----------|
+| CNN_GRU   | RTX 4090 Mobile| 7.91384                     | 2.6.0|
+
+This baseline implementation demonstrates the challenge's basic functionality. We encourage participants to experiment with:
+- Different event representations
+- Model architectures
+- Training strategies
+- Data augmentation techniques
 
 ### Preparing and Submitting Test Results
 
@@ -117,23 +169,14 @@ python test.py --config test_config.json --checkpoint [CHECKPOINT_PATH]
 ```
 Note: If you trained your model with mlflow, the checkpoint should be saved in mlruns folder. You can find `CHECKPOINT_PATH` in the `MLflow UI` under `Artifacts` section.
 
-
 2. Submit your results:
-
 - Running `test.py` will generate a `submission.csv` file under the root directory. It contains two columns 'x' and 'y'
+- Your Kaggle submission will be evaluated on Average Euclidean Distance
+- For each prediction, the Euclidean distance is computed as: `sqrt((x_true - x_pred)^2 + (y_true - y_pred)^2)`
+- The final score is the average of all these distances
 - Note that x should be in range [0, 80] and y in range [0, 60]
 
-### Evaluation Metrics
-
-Your Kaggle submission will be evaluated on:
-   
-**Averaged Euclidean Distance**
-   - Average distance in pixels between predictions and ground truth
-   - Also considered for the final report
-
 We will also assess the memory footprint using [Neurobench](https://github.com/NeuroBench/neurobench) of the Top-10 models on the private leaderboard, and the team with the lowest memory usage among them will be awarded a bonus workshop paper slot.
-
-**Important:** While not reflected in the scoreboard, inference speed (latency) is a crucial metric for the final report evaluation. Methods requiring extensive computation may not be practical for real-time eye tracking applications.
 
 ----
 ## **Dataset Description**
@@ -196,7 +239,6 @@ train_data = SlicedDataset(train_data_orig, train_slicer, \
 
 The SlicedDataset has a convenient function to cache the indices of how the raw events are sliced, when argument metadata_path is provided not None. But be careful if you provided the same metadata_path for different slicing strategies, the SlicedDataset will ignore the slicing parameters and use the old indices, causing unexpected results.
 
-
 We can further cache the transformed voxel grid representation on the disk to further speed up data preprocessing. This is done by the DiskCachedDataset class. It will slow done the first time loading the data but for future epoch and future training, it will be much faster.
 ```python
 train_data = DiskCachedDataset(train_data, \
@@ -220,65 +262,6 @@ Labels (x,y,close) for the train split are provided at frequency of 100Hz. The u
 
 #### Dataset splitting
 We use 12 recordings for testing (test split) and the remaining recordings (train split) are for the user to train and validate their methods. The users are free to divide the training and validation sets from the training data. 
-
-----
-
-
-## **Performance of baseline methods**
-
-#### Baseline performance with standard event voxel grids
-We conducted benchmarking of the dataset with several baseline methods. The baseline methods are trained with the standard event voxel grid representation. The results are shown in the following table. The inference latency is measured on a single RTX 3090 GPU with batch size = 1.
-
-| Method                                                                                    | GPU            | Averaged Distance  | P10 Accuracy       |  Inference Latency (bs=1)    | 
-|-------------------------------------------------------------------------------------------|----------------|----------|------------------|----------|
-|CNN_GRU | RTX 3090 24 Gb | 8.99    |0.63  | -    |
-
-
-
-#### Monitoring and logging of training
-We provide code sample together with [mlflow](https://mlflow.org/) for monitoring training progress and tasks. It will log the essnetial informations under the folder 'mlruns'. To monitor the runs, simply run the following command in the terminal:
-```bash
-mlflow ui --port 5000
-```
-Then open the browser and go to http://localhost:5000. You will see the following interface: 
-
-![mlflow](./figures/mlflow.png)
-
-<br>
-
-----
-
-##  **Prepare test results and submission**
-
-We provide a sample script (test.py) to prepare your test results for submission. The script will generate a submission.csv file for submitting to the Kaggle challenge server.
-
-**Please be aware** that if your data loading strategy is different from the standard strategy we provided, you need to modify the test set loader according to your method.
-
-
-```python
-python .test.py --config [CONFIG_PATH] --checkpoint [CHECKPOINT_PATH] --output_path [OUTPUT_PATH]
-```
-
-If you trained your model with mlflow, the checkpoint should be saved in mlruns folder. You can find the checkpoint path in the mlflow ui under arfitacts section.
-
-<br>
-
-----
-
-## **Evaluation of your submission**
-
-We request that you submit a ```submission.csv``` file, which should contain two columns 'x' and 'y'. Notice that the range of x is [0, 80] and y is [0, 60].
-
-#### scoring functions
-There are two evaluation metrics for the challenge:
-**p10 accuracy** (used for leaderboard on Kaggle) and **averaged euclidean distances** (also taken into consideration for the report).
-
-The p10 accuracy is defined as the percentage of the predictions that are within 10 pixels of the ground truths (in the downsampled 80x60 spatial space). The averaged euclidean distance is defined as the average euclidean distance between the predictions and the ground truths. 
-
-#### inference speed will be taken into consideration
-We do not measure the latency of your method in the score board. But in the final report, the **inference speed (latency)** is required and is a **very important** metric for evaluating the final report. That is said if your method requires huge amount of computation, it is probably not a good method for practical real-time eye tracking applications.
-
-
 
 ----
 
