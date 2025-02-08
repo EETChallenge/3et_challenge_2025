@@ -149,7 +149,7 @@ Then open your browser and navigate to http://localhost:5000. You'll see a dashb
 ![mlflow](./figures/mlflow.png)
 
 ### Baseline Performance
-We provide benchmark results using standard event voxel grid representation. These results were obtained using a single RTX 3090 GPU:
+We provide benchmark results using standard event voxel grid representation
 
 | Method    | GPU            | Average Euclidean Distance  | PyTorch Version |
 |-----------|----------------|-----------------------------|-----------|
@@ -203,7 +203,6 @@ train_data_orig = ThreeETplus_Eyetracking(save_to=args.data_dir, split="train", 
 'transform' and 'target_transform' essentially do the following:
 
 * downsample spatially by the factor of 8 on width and height, to lower the training hardware requirement for the challenge (originally 640x480 to 80x60).
-* downsample the ground truth label frequency to 20Hz, this will be discussed in the next subsection ['Labeling'](#Labeling).
 
 The challenger is **free to decide** whether to use the raw events in combination with models such as spiking neural networks or other methods, or to convert the raw events into event frames/ voxel grids and use them as input to the model, similiar to feeding an image to the model. 
 
@@ -217,6 +216,7 @@ train_slicer=SliceByTimeEventsTargets(slicing_time_window, overlap=slicing_time_
 ```
 First we determine how to divide the raw recordings into sub-recordings. The 'slicing_time_window' is the length of each sub-recording, and the 'train_stride_time' is the stride between two consecutive sub-recordings. For example, if args.train_length=30 and temp_subsample_factor=0.2, then the slicing_time_window=30*(10000us/0.2)=1.5s. Meaning that each sub-recording is 1.5s long, and in this sequence, every event frame/ voxel grid will correspond to a recording time window of 10000us/0.2=50ms, and there will be 30 of them in this sub-sequence. Assume the args.train_stride is 5, then train_stride_time=5*(10000us/0.2)=250us, meaning that the next sub-recording will start 250us after the previous one. This is for expanding the total number of training samples.
 
+**Important Note for Testing:** While you can experiment with different temporal subsample factors during training, the evaluation of test results must be performed at the original 100 Hz label frequency. Therefore, `temp_subsample_factor` must be set to 1.0 in your `test_config.json`. This ensures your predictions align with the ground truth labels for proper evaluation.
 
 After the raw event sequence is sliced into raw event sub-sequences, we can convert each of them into different event representations. The transformations are defined in the following code sniplet. **SliceLongEventsToShort** is a transformation that separate the raw event sub-sequences further into (10000us)/temp_subsample_factor time windows. **EventSlicesToVoxelGrid** is a transformation that convert each time window into the actual event representation, in this case, voxel grids with args.n_time_bins number of time bins. 
 
@@ -252,13 +252,13 @@ You can easily find a lot of [data augmentation](https://tonic.readthedocs.io/en
 
 
 #### Labeling
-The ground truth is labeled at 100Hz and consists of two parts for each label (x, y, close) with 
+The ground truth is labeled at 100 Hz and consists of two parts for each label (x, y, close) with 
 
 * labeling of the pupil center coordinates (x,y).
 
 * a binary value 'close' indicating whether the eye blinks or not (0 for opening, 1 for closing). 
 
-Labels (x,y,close) for the train split are provided at frequency of 100Hz. The user is free to decide at if they would like to downsample this frequency and whether to use the close label or not. In the training sample pipeline we provided, the labels are downsample to 20Hz and we do not use the close label by default. For the test set, we will evaluate the prediction at **20Hz** only. If you would like to alter the data loading pipeline, please be aware this downsampling.
+Labels (x,y,close) for the train split are provided at frequency of 100 Hz. The user is free to decide at if they would like to downsample this frequency and whether to use the close label or not.
 
 #### Dataset splitting
 We use 12 recordings for testing (test split) and the remaining recordings (train split) are for the user to train and validate their methods. The users are free to divide the training and validation sets from the training data. 
