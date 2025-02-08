@@ -1,5 +1,5 @@
 {
-    "device": "cuda",
+    "device": "cpu",
     "data_dir": "./event_data",
     "architecture": "CNN_GRU",
     "batch_size": 1,

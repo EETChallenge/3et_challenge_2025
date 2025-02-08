@@ -12,7 +12,7 @@
 
 [5. TU Delft](https://www.tudemi.com/)
 
-## @ CVPR 2025 Event-based Vision Workshop
+## @ <a href="https://tub-rip.github.io/eventvision2025/" target="_blank">Event-based Vision Workshop @ CVPR 2025</a>
 
 
 ## Important Dates
@@ -170,11 +170,12 @@ python test.py --config test_config.json --checkpoint [CHECKPOINT_PATH]
 Note: If you trained your model with mlflow, the checkpoint should be saved in mlruns folder. You can find `CHECKPOINT_PATH` in the `MLflow UI` under `Artifacts` section.
 
 2. Submit your results:
-- Running `test.py` will generate a `submission.csv` file under the root directory. It contains two columns 'x' and 'y'
+- Running `test.py` will generate a `submission.csv` file under the root directory. It contains three columns: 'row_id' 'x' and 'y'.
 - Your Kaggle submission will be evaluated on Average Euclidean Distance
 - For each prediction, the Euclidean distance is computed as: `sqrt((x_true - x_pred)^2 + (y_true - y_pred)^2)`
 - The final score is the average of all these distances
 - Note that x should be in range [0, 80] and y in range [0, 60]
+- Note that ground truth is labeled at 100 Hz.
 
 We will also assess the memory footprint using [Neurobench](https://github.com/NeuroBench/neurobench) of the Top-10 models on the private leaderboard, and the team with the lowest memory usage among them will be awarded a bonus workshop paper slot.
 
@@ -258,7 +259,7 @@ The ground truth is labeled at 100 Hz and consists of two parts for each label (
 
 * a binary value 'close' indicating whether the eye blinks or not (0 for opening, 1 for closing). 
 
-Labels (x,y,close) for the train split are provided at frequency of 100 Hz. The user is free to decide at if they would like to downsample this frequency and whether to use the close label or not.
+The user is free to decide at if they would like to use the close label or not.
 
 #### Dataset splitting
 We use 12 recordings for testing (test split) and the remaining recordings (train split) are for the user to train and validate their methods. The users are free to divide the training and validation sets from the training data. 
