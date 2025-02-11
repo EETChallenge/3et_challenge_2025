@@ -120,7 +120,7 @@ pip install -r requirements.txt
 ```
 
 ### Dataset
-Download The 3ET+ dataset from the competition page on [Kaggle](https://www.kaggle.com/competitions/event-based-eye-tracking-cvpr-2025/data). Put the dataset in the `./event_data` folder.
+Download The 3ET+ dataset from the competition page on [Kaggle](https://www.kaggle.com/competitions/event-based-eye-tracking-cvpr-2025/data). Put the dataset in the `./event_data` folder. (**The test dataset is bit different from last year, so please note that you should download the dataset from 2025 Kaggle site.**)
 
 ### Training
 We provide a handy training script for you to start with. Simply install the dependencies in the environment.yml file with conda and run the following command:
