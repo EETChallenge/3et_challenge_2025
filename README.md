@@ -1,4 +1,4 @@
-# [Event-based Eye Tracking Challenge 2025](https://EETChallenge.github.io/EET.github.io/) 
+# [Event-based Eye Tracking Challenge 2025](https://lab-ics.github.io/3et-2025.github.io/) 
 
 **[Qinyu Chen<sup>1</sup>](https://scholar.google.com/citations?user=enuSO2YAAAAJ&hl=en), [Min Liu<sup>2</sup>](https://scholar.google.com/citations?user=9YYkL8kAAAAJ&hl=en), [Junyuan Ding<sup>2</sup>](https://scholar.google.com/citations?user=9YYkL8kAAAAJ&hl=en), [Ziteng Wang<sup>2</sup>](https://www.linkedin.com/in/ziteng-wang-19b770234), [Tao Han<sup>5</sup>](https://www.linkedin.com/in/tao-han-05b2292b9), [Daniele Perrone<sup>3</sup>](https://scholar.google.com/citations?user=sQ9N7dsAAAAJ&hl=en), [Zongwei Wu<sup>4</sup>](https://scholar.google.fr/citations?user=3QSALjX498QC&hl=en), [Guohao Lan<sup>5</sup>](https://scholar.google.com/citations?user=1ebZN5gAAAAJ&hl=en), [Chang Gao<sup>5</sup>](https://scholar.google.com/citations?user=sQ9N7dsAAAAJ&hl=en)**
 

@@ -16,7 +16,6 @@ from dataset import ThreeETplus_Eyetracking, ScaleLabel, NormalizeLabel, \
 import tonic.transforms as transforms
 from tonic import SlicedDataset, DiskCachedDataset
 
-
 def main(args):
     # Load hyperparameters from JSON configuration file
     if args.config_file:
@@ -87,6 +86,7 @@ def main(args):
         raise ValueError("Please provide a checkpoint file.")
     
     # evaluate on the validation set and save the predictions into a csv file.
+
     with open(args.output_path, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
         # add column names 'row_id', 'x', 'y'
@@ -94,9 +94,17 @@ def main(args):
         row_id = 0
         for batch_idx, (data, target_placeholder) in enumerate(test_loader):
             data = data.to(args.device)
-            output = model(data)
 
-            # Important! 
+            # min_time_steps = min(data.shape[1], target_placeholder.shape[1])
+            #
+            # # 按时间维度 (shape[1]) 进行裁剪
+            # data = data[:, :min_time_steps, ...]
+            # target_placeholder = target_placeholder[:, :min_time_steps, ...]
+
+            output = model(data)
+            # assert data.shape[1] == target_placeholder.shape[
+            #     1], f"Shape mismatch: {data.shape[1]} vs {target_placeholder.shape[1]}"
+            # Important!
             # cast the output back to the downsampled sensor space (80x60)
             output = output * torch.tensor((640*factor, 480*factor)).to(args.device)
 
@@ -109,6 +117,8 @@ def main(args):
                     row_to_write.insert(0, row_id)
                     csv_writer.writerow(row_to_write)
                     row_id += 1
+                    print( row_id )
+
 
 
 if __name__ == "__main__":
