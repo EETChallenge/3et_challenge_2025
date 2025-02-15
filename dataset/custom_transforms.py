@@ -24,14 +24,8 @@ def custom_to_voxel_grid_numpy(events, sensor_size, n_time_bins=10):
     voxel_grid = np.zeros((n_time_bins, sensor_size[1], sensor_size[0]), float).ravel()
 
     # normalize the event timestamps so that they lie between 0 and n_time_bins
-    # ts = (
-    #     n_time_bins
-    #     * (events["t"].astype(float) - events["t"][0])
-    #     / (events["t"][-1] - events["t"][0])
-    # )
-    # normalize the event timestamps so that they lie between 0 and n_time_bins
     time_diff = events["t"][-1] - events["t"][0]
-    if time_diff < 1e-6:  # 避免除零
+    if time_diff < 1e-6:  # avoid zero-vidision
         ts = np.zeros_like(events["t"], dtype=float)
     else:
         ts = n_time_bins * (events["t"].astype(float) - events["t"][0]) / time_diff
