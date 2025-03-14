@@ -94,16 +94,8 @@ def main(args):
         row_id = 0
         for batch_idx, (data, target_placeholder) in enumerate(test_loader):
             data = data.to(args.device)
-
-            # min_time_steps = min(data.shape[1], target_placeholder.shape[1])
-            #
-            # # 按时间维度 (shape[1]) 进行裁剪
-            # data = data[:, :min_time_steps, ...]
-            # target_placeholder = target_placeholder[:, :min_time_steps, ...]
-
             output = model(data)
-            # assert data.shape[1] == target_placeholder.shape[
-            #     1], f"Shape mismatch: {data.shape[1]} vs {target_placeholder.shape[1]}"
+
             # Important!
             # cast the output back to the downsampled sensor space (80x60)
             output = output * torch.tensor((640*factor, 480*factor)).to(args.device)

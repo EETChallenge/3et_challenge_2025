@@ -143,31 +143,21 @@ def main(args):
             raise ValueError("Invalid loss name")
 
         factor = args.spatial_factor # spatial downsample factor
-        temp_subsample_factor = args.temporal_subsample_factor # downsampling original 100Hz label to 20Hz
-
-        # Data Transformation
-        # data_transform = transforms.Compose([
-        #     transforms.Downsample(spatial_factor=factor),
-        #     TemporalSubsample(temp_subsample_factor)
-        # ])
+        temp_subsample_factor = args.temporal_subsample_factor
 
         # First we define the label transformations
-
         label_transform = transforms.Compose([
             ScaleLabel(factor),
-            # LabelTemporalSubsample(temp_subsample_factor),
             NormalizeLabel(pseudo_width=640*factor, pseudo_height=480*factor)
         ])
 
         # Then we define the raw event recording and label dataset, the raw events spatial coordinates are also downsampled
         train_data_orig = ThreeETplus_Eyetracking(save_to=args.data_dir, split="train", \
                         transform=transforms.Downsample(spatial_factor=factor),
-                        # transform=data_transform, 
                         target_transform=label_transform
                                                   )
         val_data_orig = ThreeETplus_Eyetracking(save_to=args.data_dir, split="val", \
                         transform=transforms.Downsample(spatial_factor=factor),
-                        # transform=data_transform,
                         target_transform=label_transform
                                                 )
 
